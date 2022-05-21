@@ -1,0 +1,14 @@
+version: '3.4'
+
+services:
+  p3t5-db:
+    image: postgres
+    container_name: p3t5-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+     - 5433:5432
+    volumes:
+     - /db/var/lib/postgresql/data
