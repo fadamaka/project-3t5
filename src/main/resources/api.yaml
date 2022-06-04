@@ -1,0 +1,50 @@
+openapi: "3.0.0"
+info:
+  title: Project 3t5
+  description: Multiplayer 5 in a row tic tac toe game which allows humans and machines all alike to contend with each other.
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.1
+paths:
+  /matches:
+    get:
+      description: Returns all matches from the system that the user has access to
+      responses:
+        '200':
+          description: A list of matches.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/match'
+components:
+  schemas:
+    match:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        player_one:
+          $ref: '#/components/schemas/player'
+        player_two:
+          $ref: '#/components/schemas/player'
+        match_status:
+          type: string
+        match_data:
+          type: array
+          items:
+            type: string
+    player:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+        api_key:
+          type: string
+        
