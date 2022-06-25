@@ -1,0 +1,18 @@
+server:
+  port: 8083
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5433/auth
+    username: postgres
+    password: postgres
+
+keycloak:
+  server:
+    contextPath: /auth
+    adminUser:
+      username: p3t5-admin
+      password: pass
+    realmImportFile: p3t5-realm.json
+    googleId: ${GOOGLE_CLIENT_ID}
+    googleSecret: ${GOOGLE_CLIENT_SECRET}

@@ -1,0 +1,22 @@
+server:
+  port: 8081
+
+
+####### resource server configuration properties
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5433/postgres
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8083/auth/realms/p3t5
+          jwk-set-uri: http://localhost:8083/auth/realms/p3t5/protocol/openid-connect/certs
