@@ -14,7 +14,7 @@
 	<name>p3t5-auth</name>
 	<description>Authorization server for Project 3t5</description>
 	<properties>
-		<java.version>13</java.version>
+		<java.version>17</java.version>
 		<testcontainers.version>1.17.2</testcontainers.version>
 		<!-- non-dependencies -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -106,12 +106,32 @@
 	</dependencyManagement>
 
 	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+				<excludes>
+					<exclude>*.jks</exclude>
+				</excludes>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<addResources>true</addResources>
+					<mainClass>com.fada.auth.P3t5AuthApplication</mainClass>
+					<requiresUnpack>
+						<dependency>
+							<groupId>org.keycloak</groupId>
+							<artifactId>keycloak-connections-jpa</artifactId>
+						</dependency>
+						<dependency>
+							<groupId>org.keycloak</groupId>
+							<artifactId>keycloak-model-jpa</artifactId>
+						</dependency>
+					</requiresUnpack>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -126,13 +146,9 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<excludes>
-						<exclude>**/*LiveTest.java</exclude>
-					</excludes>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>
+
 
 </project>

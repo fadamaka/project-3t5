@@ -12,3 +12,14 @@ services:
      - 5433:5432
     volumes:
      - /db/var/lib/postgresql/data
+     - ./db:/docker-entrypoint-initdb.d
+  auth:
+    build: auth/
+    container_name: p3t5-auth
+    environment:
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+    ports:
+     - 8083:8083
+    depends_on:
+     - "p3t5-db"

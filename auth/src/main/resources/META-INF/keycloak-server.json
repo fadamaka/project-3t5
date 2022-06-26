@@ -98,7 +98,7 @@
 	},
 	"connectionsJpa": {
 		"default": {
-			"url": "${keycloak.connectionsJpa.url:jdbc:postgresql://localhost:5433/auth}",
+			"url": "${keycloak.connectionsJpa.url:jdbc:postgresql://host.docker.internal:5433/auth}",
 			"driver": "${keycloak.connectionsJpa.driver:org.postgresql.Driver}",
 			"driverDialect": "${keycloak.connectionsJpa.driverDialect:}",
 			"user": "${keycloak.connectionsJpa.user:postgres}",
