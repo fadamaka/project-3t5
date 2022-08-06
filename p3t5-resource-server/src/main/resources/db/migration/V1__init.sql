@@ -20,7 +20,7 @@ CREATE TABLE "match" (
 	"player_one_id" int4 NULL,
 	"player_two_id" int4 NULL,
 	status_id int4 NULL,
-	match_data json NULL,
+	moves json NULL,
 	CONSTRAINT match_pkey PRIMARY KEY (id),
 	CONSTRAINT match_player_one_id_fkey FOREIGN KEY ("player_one_id") REFERENCES player(id),
 	CONSTRAINT match_player_two_id_fkey FOREIGN KEY ("player_two_id") REFERENCES player(id),

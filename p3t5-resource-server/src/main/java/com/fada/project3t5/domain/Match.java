@@ -1,6 +1,8 @@
 package com.fada.project3t5.domain;
 
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
@@ -14,6 +16,7 @@ import javax.persistence.ManyToOne;
 import org.hibernate.annotations.Type;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -21,6 +24,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Builder
 public class Match {
 
     @Id
@@ -36,5 +40,5 @@ public class Match {
     private MatchStatus status;
     @Type(type = "json")
     @Column(columnDefinition = "json")
-    private MatchData matchData;
+    private List<Move> moves;
 }

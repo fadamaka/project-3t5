@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 import com.fada.project3t5.domain.Match;
+import com.fada.project3t5.domain.MatchStatus;
+import com.fada.project3t5.domain.Move;
+import com.fada.project3t5.domain.Player;
 import com.fada.project3t5.repository.MatchRepository;
 
 import io.swagger.annotations.ApiOperation;
@@ -38,6 +41,12 @@ public class MatchController {
             produces = { "application/json" }
     )
     public ResponseEntity<List<Match>> matchesGet() {
+        matchRepository.save(
+                Match.builder()
+                        .playerOne(new Player(1,"asd","asd"))
+                        .playerTwo(new Player(2,"asd","asd"))
+                        .status(MatchStatus.FINISHED)
+                        .moves(List.of(new Move(1,"X",1,2),new Move(2,"Y",2,2))).build());
         List<Match> matches = matchRepository.findAll();
         if(matches.size()>0){
             return ResponseEntity.ok(matches);

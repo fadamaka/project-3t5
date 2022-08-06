@@ -1,25 +1,14 @@
 package com.fada.project3t5.domain;
 
-import java.util.List;
-
 import javax.persistence.MappedSuperclass;
 
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
 
 import com.vladmihalcea.hibernate.type.json.JsonType;
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-
-@Data
-@AllArgsConstructor
 @TypeDefs({
         @TypeDef(name = "json", typeClass = JsonType.class)
 })
 @MappedSuperclass
-public class MatchData {
-
-    List<Move> moves;
-
+public record Move(Integer id, String sign, Integer x, Integer y) {
 }
