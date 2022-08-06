@@ -1,7 +1,7 @@
 package com.fada.project3t5.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import org.springframework.data.cassandra.core.mapping.PrimaryKey;
+import org.springframework.data.cassandra.core.mapping.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,10 +11,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
+@Table
 public class Player {
 
-    @Id
+    @PrimaryKey
     private Integer id;
     private String name;
     private String apiKey;

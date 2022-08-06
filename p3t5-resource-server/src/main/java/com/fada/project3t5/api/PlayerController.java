@@ -1,10 +1,7 @@
 package com.fada.project3t5.api;
 
-import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;

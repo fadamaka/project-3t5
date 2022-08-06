@@ -23,3 +23,10 @@ services:
      - 8083:8083
     depends_on:
      - "p3t5-db"
+  cassandra:
+    build: cassandra-db/
+    container_name: cas-db
+    environment:
+      CASSANDRA_KEYSPACE: ${CASSANDRA_KEYSPACE}
+    ports:
+     - 9042:9042

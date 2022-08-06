@@ -1,6 +1,9 @@
 package com.fada.project3t5.api;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -43,11 +46,17 @@ public class MatchController {
     public ResponseEntity<List<Match>> matchesGet() {
         matchRepository.save(
                 Match.builder()
-                        .playerOne(new Player(1,"asd","asd"))
-                        .playerTwo(new Player(2,"asd","asd"))
+                        .id(2)
+                        //.playerOne(new Player(1,"asd","asd"))
+                        //.playerTwo(new Player(2,"asd","asd"))
+                        .playerOne(1)
+                        .playerTwo(2)
                         .status(MatchStatus.FINISHED)
-                        .moves(List.of(new Move(1,"X",1,2),new Move(2,"Y",2,2))).build());
-        List<Match> matches = matchRepository.findAll();
+                        .moves(List.of(1,2))
+                        //.moves(List.of(new Move(1,"X",1,2),new Move(2,"Y",2,2)))
+                        .build());
+        List<Match> matches = StreamSupport.stream(matchRepository.findAll().spliterator(), false)
+                .collect(Collectors.toList());
         if(matches.size()>0){
             return ResponseEntity.ok(matches);
         }
