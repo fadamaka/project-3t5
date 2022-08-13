@@ -1,15 +1,16 @@
 package com.fada.project3t5;
 
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
-@Disabled
-class Project3t5ApplicationTests {
+import org.junit.jupiter.api.Test;
+class Project3t5ApplicationTests extends CassandraSimpleIntegrationTestBase {
 
 	@Test
 	void contextLoads() {
 	}
 
+	@Test
+	void givenCassandraContainer_whenSpringContextIsBootstrapped_thenContainerIsRunningWithNoExceptions() {
+		assertThat(cassandra.isRunning()).isTrue();
+	}
 }
