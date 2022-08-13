@@ -2,7 +2,10 @@ package com.fada.project3t5.domain;
 
 
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
+import org.springframework.data.cassandra.core.mapping.Frozen;
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
 
@@ -19,9 +22,10 @@ import lombok.NoArgsConstructor;
 public class Match {
 
     @PrimaryKey
-    private Integer id;
+    @Builder.Default()
+    private UUID id =UUID.randomUUID();
     private Integer playerOne;
     private Integer playerTwo;
     private MatchStatus status;
-    private List<Integer> moves;
+    private Map<Integer,Move> moves;
 }

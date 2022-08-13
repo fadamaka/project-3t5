@@ -44,17 +44,6 @@ public class MatchController {
             produces = { "application/json" }
     )
     public ResponseEntity<List<Match>> matchesGet() {
-        matchRepository.save(
-                Match.builder()
-                        .id(2)
-                        //.playerOne(new Player(1,"asd","asd"))
-                        //.playerTwo(new Player(2,"asd","asd"))
-                        .playerOne(1)
-                        .playerTwo(2)
-                        .status(MatchStatus.FINISHED)
-                        .moves(List.of(1,2))
-                        //.moves(List.of(new Move(1,"X",1,2),new Move(2,"Y",2,2)))
-                        .build());
         List<Match> matches = StreamSupport.stream(matchRepository.findAll().spliterator(), false)
                 .collect(Collectors.toList());
         if(matches.size()>0){

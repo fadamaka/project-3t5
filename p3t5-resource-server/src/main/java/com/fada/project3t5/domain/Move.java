@@ -1,4 +1,7 @@
 package com.fada.project3t5.domain;
 
-public record Move(Integer id, String sign, Integer x, Integer y) {
+import org.springframework.data.cassandra.core.mapping.UserDefinedType;
+
+@UserDefinedType
+public record Move(String sign, Integer x, Integer y) {
 }
