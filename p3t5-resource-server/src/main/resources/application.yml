@@ -3,12 +3,14 @@ server:
 
 
 ####### resource server configuration properties
+amazon:
+  dynamodb:
+    endpoint: http://localhost:8000/
+  aws:
+    accesskey: key
+    secretkey: key2
+
 spring:
-  data:
-    cassandra:
-      local-datacenter: datacenter1
-      keyspace-name: spring_cassandra
-      schema-action: CREATE_IF_NOT_EXISTS
   security:
     oauth2:
       resourceserver:

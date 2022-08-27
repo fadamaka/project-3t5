@@ -23,10 +23,13 @@ services:
      - 8083:8083
     depends_on:
      - "p3t5-db"
-  cassandra:
-    build: cassandra-db/
-    container_name: cas-db
-    environment:
-      CASSANDRA_KEYSPACE: ${CASSANDRA_KEYSPACE}
+  dynamodb:
+    image:  amazon/dynamodb-local
+    container_name: my-dynamodb
+    hostname: dynamodb
+    restart: always
+    volumes:
+      -  ./my-dynamodb-data:/home/dynamodblocal/data
     ports:
-     - 9042:9042
+      - 8000:8000
+    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath /home/dynamodblocal/data/"
