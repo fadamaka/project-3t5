@@ -4,11 +4,12 @@ server:
 
 ####### resource server configuration properties
 spring:
+  neo4j:
+    uri: ${NEO4J_URI}
   data:
-    cassandra:
-      local-datacenter: datacenter1
-      keyspace-name: spring_cassandra
-      schema-action: CREATE_IF_NOT_EXISTS
+    neo4j:
+      username: ${NEO4J_USERNAME}
+      password: ${NEO4J_PASSWORD}
   security:
     oauth2:
       resourceserver:
