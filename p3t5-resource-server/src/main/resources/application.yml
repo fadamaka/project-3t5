@@ -4,12 +4,16 @@ server:
 
 ####### resource server configuration properties
 spring:
-  neo4j:
-    uri: ${NEO4J_URI}
-  data:
-    neo4j:
-      username: ${NEO4J_USERNAME}
-      password: ${NEO4J_PASSWORD}
+  datasource:
+    url: url
+    username: username
+    password: pw
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
   security:
     oauth2:
       resourceserver:

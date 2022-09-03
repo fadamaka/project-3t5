@@ -1,33 +1,46 @@
 package com.fada.project3t5.domain;
 
 
-import org.springframework.data.neo4j.core.schema.GeneratedValue;
-import org.springframework.data.neo4j.core.schema.Id;
-import org.springframework.data.neo4j.core.schema.Node;
-import org.springframework.data.neo4j.core.schema.Relationship;
+import java.util.Map;
+
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import com.fada.project3t5.domain.converter.MovesMapConverter;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Node
+@Entity
+@Table(name ="\"match\"")
 public class Match {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Relationship(type = "PLAYED_AS_P1", direction = Relationship.Direction.INCOMING)
-    @EqualsAndHashCode.Exclude
-    public Player p1;
-    @Relationship(type = "PLAYED_AS_P2", direction = Relationship.Direction.INCOMING)
-    @EqualsAndHashCode.Exclude
-    public Player p2;
+    @ManyToOne
+    @JoinColumn(name = "player_one_id", foreignKey = @ForeignKey(name = "match_player_one_id_fkey"))
+    private Player p1;
+    @ManyToOne
+    @JoinColumn(name = "player_two_id",foreignKey = @ForeignKey(name = "match_player_two_id_fkey"))
+    private Player p2;
+    @Column(name="status_id", columnDefinition = "BIGINTEGER")
     private MatchStatus status;
-    private String moves;
+    @Column(name = "moves", columnDefinition = "TEXT")
+    @Convert(converter = MovesMapConverter.class)
+    private Map<Integer,Move> movesMap;
 }

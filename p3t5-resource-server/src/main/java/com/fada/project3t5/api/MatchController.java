@@ -1,6 +1,7 @@
 package com.fada.project3t5.api;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.fada.project3t5.domain.Match;
 import com.fada.project3t5.domain.MatchStatus;
+import com.fada.project3t5.domain.Move;
 import com.fada.project3t5.domain.Player;
 import com.fada.project3t5.repository.MatchRepository;
 import com.fada.project3t5.repository.PlayerRepository;
@@ -42,10 +44,10 @@ public class MatchController {
             value = "/findAll",
             produces = {"application/json"}
     )
-    public ResponseEntity<List<Match>> matchesGet() {
+    public ResponseEntity<Match> matchesGet() {
         List<Match> matches = matchRepository.findAll();
         if (matches.size() > 0) {
-            return ResponseEntity.ok(matches);
+            return ResponseEntity.ok(matches.get(0));
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
@@ -59,8 +61,8 @@ public class MatchController {
         playerRepository.saveAll(List.of(Player.builder().name("vki").apiKey("meh").build(), Player.builder().name("vkimas").apiKey("meh2").build()));
         List<Player> players = playerRepository.findAll();
 
-        matchRepository.saveAll(List.of(Match.builder().p1(players.get(0)).p2(players.get(1)).status(MatchStatus.FINISHED).moves("passed").build(),
-                Match.builder().p1(players.get(1)).p2(players.get(2)).status(MatchStatus.FINISHED).moves("passed2").build()));
+        matchRepository.saveAll(List.of(Match.builder().p1(players.get(0)).p2(players.get(1)).status(MatchStatus.FINISHED).movesMap(Map.of(1,new Move("x",1,2),2,new Move("o",1,3))).build(),
+                Match.builder().p1(players.get(1)).p2(players.get(0)).status(MatchStatus.FINISHED).movesMap(Map.of(1,new Move("x",1,2),2,new Move("o",1,3))).build()));
         return ResponseEntity.ok(true);
     }
 }
