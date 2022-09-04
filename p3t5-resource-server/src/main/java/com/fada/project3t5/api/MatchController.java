@@ -44,10 +44,10 @@ public class MatchController {
             value = "/findAll",
             produces = {"application/json"}
     )
-    public ResponseEntity<Match> matchesGet() {
+    public ResponseEntity<List<Match>> matchesGet() {
         List<Match> matches = matchRepository.findAll();
         if (matches.size() > 0) {
-            return ResponseEntity.ok(matches.get(0));
+            return ResponseEntity.ok(matches);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 

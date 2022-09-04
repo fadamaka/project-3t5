@@ -2,17 +2,22 @@ version: '3.4'
 
 services:
   p3t5-db:
-    image: postgres
+    image: mysql:8.0.23
     container_name: p3t5-db
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
+     - MYSQL_ROOT_PASSWORD=mysql
+     - MYSQL_PASSWORD=mysql
+     - MYSQL_USER=mysql
+     - MYSQL_DATABASE=p3t5
     ports:
-     - 5433:5432
+     - 3306:3306
     volumes:
-     - /db/var/lib/postgresql/data
-     - ./db:/docker-entrypoint-initdb.d
+     - ~/apps/mysql:/var/lib/mysql
+     - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
   auth:
     build: auth/
     container_name: p3t5-auth
@@ -22,4 +27,5 @@ services:
     ports:
      - 8083:8083
     depends_on:
-     - "p3t5-db"
+      p3t5-db:
+        condition: service_healthy

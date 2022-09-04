@@ -98,11 +98,11 @@
 	},
 	"connectionsJpa": {
 		"default": {
-			"url": "${keycloak.connectionsJpa.url:jdbc:postgresql://host.docker.internal:5433/auth}",
-			"driver": "${keycloak.connectionsJpa.driver:org.postgresql.Driver}",
+			"url": "${keycloak.connectionsJpa.url:jdbc:mysql://host.docker.internal:3306/auth}",
+			"driver": "${keycloak.connectionsJpa.driver:com.mysql.jdbc.Driver}",
 			"driverDialect": "${keycloak.connectionsJpa.driverDialect:}",
-			"user": "${keycloak.connectionsJpa.user:postgres}",
-			"password": "${keycloak.connectionsJpa.password:postgres}",
+			"user": "${keycloak.connectionsJpa.user:root}",
+			"password": "${keycloak.connectionsJpa.password:mysql}",
 			"initializeEmpty": true,
 			"migrationStrategy": "update",
 			"showSql": "${keycloak.connectionsJpa.showSql:false}",

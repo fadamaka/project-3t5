@@ -3,9 +3,9 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://host.docker.internal:5433/auth
-    username: postgres
-    password: postgres
+    url: jdbc:mysql://host.docker.internal:3306/auth
+    username: root
+    password: mysql
 
 keycloak:
   server:
