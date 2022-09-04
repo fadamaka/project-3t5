@@ -44,7 +44,7 @@ public class PlayerController {
     public ResponseEntity<String> playerGet(JwtAuthenticationToken principal) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
-        return ResponseEntity.ok().body(principal.getToken().toString());
+        return ResponseEntity.ok().body(principal.getToken().getTokenValue());
     }
 
     @GetMapping(value = "/get")

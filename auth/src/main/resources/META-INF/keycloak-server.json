@@ -27,9 +27,7 @@
 			"success-level": "debug",
 			"error-level": "warn"
 		},
-		"event-queue": {
-			
-		}
+		"event-queue": {}
 	},
 	"realm": {
 		"provider": "${keycloak.realm.provider:jpa}"
@@ -99,7 +97,7 @@
 	"connectionsJpa": {
 		"default": {
 			"url": "${keycloak.connectionsJpa.url:jdbc:mysql://host.docker.internal:3306/auth}",
-			"driver": "${keycloak.connectionsJpa.driver:com.mysql.jdbc.Driver}",
+			"driver": "${keycloak.connectionsJpa.driver:com.mysql.cj.jdbc.Driver}",
 			"driverDialect": "${keycloak.connectionsJpa.driverDialect:}",
 			"user": "${keycloak.connectionsJpa.user:root}",
 			"password": "${keycloak.connectionsJpa.password:mysql}",

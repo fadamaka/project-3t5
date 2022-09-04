@@ -16,7 +16,7 @@ services:
      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
       test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
-      timeout: 20s
+      timeout: 2s
       retries: 10
   auth:
     build: auth/
