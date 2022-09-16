@@ -7,14 +7,12 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.fada.project3t5.domain.Match;
 import com.fada.project3t5.domain.MatchStatus;
 import com.fada.project3t5.domain.Move;
 import com.fada.project3t5.domain.Player;
 
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
 @SpringBootTest
@@ -28,7 +26,6 @@ class MatchRepositoryITest {
     PlayerRepository playerRepository;
 
     @Test
-    @SneakyThrows
     void test() {
         playerRepository.saveAll(List.of(Player.builder().name("one").apiKey("unimplemented").build(),
                 Player.builder().name("two").apiKey("unimplemented").build()));
@@ -49,11 +46,6 @@ class MatchRepositoryITest {
                         .build()));
         List<Match> matches = matchRepository.findAll();
         Assertions.assertThat(matches.size()).isEqualTo(2);
-        ObjectMapper objectMapper = new ObjectMapper();
-        // objectMapper.setVisibility(PropertyAccessor.FIELD,
-        // JsonAutoDetect.Visibility.ANY);
-        log.info(objectMapper.writeValueAsString(matches));
-
     }
 
 }
