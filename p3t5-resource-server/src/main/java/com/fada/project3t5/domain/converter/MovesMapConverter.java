@@ -40,7 +40,8 @@ public class MovesMapConverter implements AttributeConverter<Map<Integer, Move>,
 
         Map<Integer, Move> movesMap = null;
         try {
-            movesMap = objectMapper.readValue(movesMapJSON, new TypeReference<Map<Integer, Move>>(){});
+            movesMap = objectMapper.readValue(movesMapJSON, new TypeReference<Map<Integer, Move>>() {
+            });
         } catch (final IOException e) {
             log.error("JSON reading error", e);
         }

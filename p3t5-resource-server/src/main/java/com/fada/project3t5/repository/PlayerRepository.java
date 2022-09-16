@@ -4,5 +4,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.fada.project3t5.domain.Player;
 
-public interface PlayerRepository extends JpaRepository<Player,Long> {
+public interface PlayerRepository extends JpaRepository<Player, Long> {
 }

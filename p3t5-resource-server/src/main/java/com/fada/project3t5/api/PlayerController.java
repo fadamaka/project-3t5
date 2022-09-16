@@ -29,18 +29,14 @@ public class PlayerController {
     public static final String REDIRECT_URL = "http://localhost:8081/players/get";
 
     /**
-     * GET /matches
-     * Returns all matches from the system that the user has access to
+     * GET /matches Returns all matches from the system that the user has access to
      *
      * @return A list of matches. (status code 200)
      */
-    @ApiOperation(value = "", nickname = "playerGet", notes = "Returns information about the logged in user", response = Player.class, responseContainer = "Object", tags={  })
+    @ApiOperation(value = "", nickname = "playerGet", notes = "Returns information about the logged in user", response = Player.class, responseContainer = "Object", tags = {})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Player info.", response = Player.class, responseContainer = "Object") })
-    @GetMapping(
-            value = "/gets",
-            produces = { "application/json" }
-    )
+    @GetMapping(value = "/gets", produces = { "application/json" })
     public ResponseEntity<String> playerGet(JwtAuthenticationToken principal) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
@@ -48,19 +44,14 @@ public class PlayerController {
     }
 
     @GetMapping(value = "/get")
-    public ResponseEntity<String> getToken(@RequestParam String code){
+    public ResponseEntity<String> getToken(@RequestParam String code) {
         Map<String, String> params = new HashMap<>();
         params.put("grant_type", "authorization_code");
         params.put("code", code);
         params.put("client_id", "jwtClient");
         params.put("redirect_uri", REDIRECT_URL);
         params.put("client_secret", "jwtClientSecret");
-        Response response = RestAssured
-                .given()
-                .formParams(params)
-                .post(TOKEN_URL);
-        return ResponseEntity.ok().body(response
-                .jsonPath()
-                .getString("access_token"));
+        Response response = RestAssured.given().formParams(params).post(TOKEN_URL);
+        return ResponseEntity.ok().body(response.jsonPath().getString("access_token"));
     }
 }

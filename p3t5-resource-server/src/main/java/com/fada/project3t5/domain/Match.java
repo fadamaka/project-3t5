@@ -1,6 +1,5 @@
 package com.fada.project3t5.domain;
 
-
 import java.util.Map;
 
 import javax.persistence.Column;
@@ -26,7 +25,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name ="\"match\"")
+@Table(name = "\"match\"")
 public class Match {
 
     @Id
@@ -36,11 +35,11 @@ public class Match {
     @JoinColumn(name = "player_one_id", foreignKey = @ForeignKey(name = "match_player_one_id_fkey"))
     private Player p1;
     @ManyToOne
-    @JoinColumn(name = "player_two_id",foreignKey = @ForeignKey(name = "match_player_two_id_fkey"))
+    @JoinColumn(name = "player_two_id", foreignKey = @ForeignKey(name = "match_player_two_id_fkey"))
     private Player p2;
-    @Column(name="status_id", columnDefinition = "BIGINTEGER")
+    @Column(name = "status_id", columnDefinition = "BIGINTEGER")
     private MatchStatus status;
     @Column(name = "moves", columnDefinition = "TEXT")
     @Convert(converter = MovesMapConverter.class)
-    private Map<Integer,Move> movesMap;
+    private Map<Integer, Move> movesMap;
 }

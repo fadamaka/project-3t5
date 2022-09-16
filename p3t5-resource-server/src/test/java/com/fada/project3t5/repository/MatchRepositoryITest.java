@@ -21,26 +21,37 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 class MatchRepositoryITest {
 
-
     @Autowired
     MatchRepository matchRepository;
 
     @Autowired
     PlayerRepository playerRepository;
 
-
     @Test
     @SneakyThrows
-    void test(){
-        playerRepository.saveAll(List.of(Player.builder().name("one").apiKey("unimplemented").build(), Player.builder().name("two").apiKey("unimplemented").build()));
+    void test() {
+        playerRepository.saveAll(List.of(Player.builder().name("one").apiKey("unimplemented").build(),
+                Player.builder().name("two").apiKey("unimplemented").build()));
         List<Player> players = playerRepository.findAll();
 
-        matchRepository.saveAll(List.of(Match.builder().p1(players.get(0)).p2(players.get(1)).status(MatchStatus.FINISHED).movesMap(Map.of(1,new Move("x",1,2),2,new Move("o",1,3))).build(),
-                Match.builder().p1(players.get(1)).p2(players.get(0)).status(MatchStatus.FINISHED).movesMap(Map.of(1,new Move("x",1,2),2,new Move("o",1,3))).build()));
+        matchRepository.saveAll(List.of(
+                Match.builder()
+                        .p1(players.get(0))
+                        .p2(players.get(1))
+                        .status(MatchStatus.FINISHED)
+                        .movesMap(Map.of(1, new Move("x", 1, 2), 2, new Move("o", 1, 3)))
+                        .build(),
+                Match.builder()
+                        .p1(players.get(1))
+                        .p2(players.get(0))
+                        .status(MatchStatus.FINISHED)
+                        .movesMap(Map.of(1, new Move("x", 1, 2), 2, new Move("o", 1, 3)))
+                        .build()));
         List<Match> matches = matchRepository.findAll();
         Assertions.assertThat(matches.size()).isEqualTo(2);
         ObjectMapper objectMapper = new ObjectMapper();
-        //objectMapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+        // objectMapper.setVisibility(PropertyAccessor.FIELD,
+        // JsonAutoDetect.Visibility.ANY);
         log.info(objectMapper.writeValueAsString(matches));
 
     }
