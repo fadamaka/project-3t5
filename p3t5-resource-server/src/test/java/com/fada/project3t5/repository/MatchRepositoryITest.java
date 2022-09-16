@@ -27,8 +27,8 @@ class MatchRepositoryITest {
 
     @Test
     void test() {
-        playerRepository.saveAll(List.of(Player.builder().name("one").apiKey("unimplemented").build(),
-                Player.builder().name("two").apiKey("unimplemented").build()));
+        playerRepository.saveAll(List.of(Player.builder().name("one").email("one@one.one").build(),
+                Player.builder().name("two").email("two@two.two").build()));
         List<Player> players = playerRepository.findAll();
 
         matchRepository.saveAll(List.of(

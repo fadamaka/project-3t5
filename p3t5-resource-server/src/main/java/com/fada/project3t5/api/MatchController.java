@@ -51,8 +51,8 @@ public class MatchController {
 
     @GetMapping(value = "/fake", produces = { "application/json" })
     public ResponseEntity<Boolean> createFakeData() {
-        playerRepository.saveAll(List.of(Player.builder().name("vki").apiKey("meh").build(),
-                Player.builder().name("vkimas").apiKey("meh2").build()));
+        playerRepository.saveAll(List.of(Player.builder().name("someone").email("meh@meh.meh").build(),
+                Player.builder().name("someone").email("meh2@meh.meh").build()));
         List<Player> players = playerRepository.findAll();
 
         matchRepository.saveAll(List.of(

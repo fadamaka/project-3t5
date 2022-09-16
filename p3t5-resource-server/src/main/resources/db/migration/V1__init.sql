@@ -9,9 +9,10 @@ CREATE TABLE match_status (
 
 CREATE TABLE player (
 	id int8 NOT NULL AUTO_INCREMENT,
-	name varchar(20) NULL,
-	api_key varchar(20) NULL,
-	CONSTRAINT player_pkey PRIMARY KEY (id)
+	name varchar(50) NULL,
+	email varchar(200) NULL,
+	CONSTRAINT player_pkey PRIMARY KEY (id),
+	CONSTRAINT email_unique UNIQUE (email)
 );
 
 

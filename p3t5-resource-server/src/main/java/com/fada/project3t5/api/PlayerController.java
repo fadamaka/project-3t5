@@ -3,16 +3,15 @@ package com.fada.project3t5.api;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.fada.project3t5.domain.Player;
+import com.fada.project3t5.service.PlayerService;
 
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
@@ -28,6 +27,9 @@ public class PlayerController {
     public static final String TOKEN_URL = "http://localhost:8083/auth/realms/p3t5/protocol/openid-connect/token";
     public static final String REDIRECT_URL = "http://localhost:8081/players/get";
 
+    @Autowired
+    PlayerService playerService;
+
     /**
      * GET /matches Returns all matches from the system that the user has access to
      *
@@ -37,10 +39,8 @@ public class PlayerController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Player info.", response = Player.class, responseContainer = "Object") })
     @GetMapping(value = "/gets", produces = { "application/json" })
-    public ResponseEntity<String> playerGet(JwtAuthenticationToken principal) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentPrincipalName = authentication.getName();
-        return ResponseEntity.ok().body(principal.getToken().getTokenValue());
+    public ResponseEntity<Player> playerGet() {
+        return ResponseEntity.ok().body(playerService.getLoggedInPlayer());
     }
 
     @GetMapping(value = "/get")
