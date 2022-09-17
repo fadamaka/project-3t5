@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.fada.project3t5.domain.Player;
+import com.fada.project3t5.domain.model.Player;
 
 public interface PlayerRepository extends JpaRepository<Player, Long> {
 

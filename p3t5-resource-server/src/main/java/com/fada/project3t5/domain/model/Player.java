@@ -1,4 +1,4 @@
-package com.fada.project3t5.domain;
+package com.fada.project3t5.domain.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

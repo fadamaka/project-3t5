@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.fada.project3t5.domain.Player;
+import com.fada.project3t5.domain.model.Player;
 import com.fada.project3t5.service.PlayerService;
 
 import io.restassured.RestAssured;

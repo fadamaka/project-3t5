@@ -8,10 +8,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.fada.project3t5.domain.Match;
-import com.fada.project3t5.domain.MatchStatus;
-import com.fada.project3t5.domain.Move;
-import com.fada.project3t5.domain.Player;
+import com.fada.project3t5.domain.enums.MatchStatus;
+import com.fada.project3t5.domain.enums.Sign;
+import com.fada.project3t5.domain.model.Match;
+import com.fada.project3t5.domain.model.Move;
+import com.fada.project3t5.domain.model.Player;
+import com.fada.project3t5.domain.model.Point;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,19 +33,22 @@ class MatchRepositoryITest {
                 Player.builder().name("two").email("two@two.two").build()));
         List<Player> players = playerRepository.findAll();
 
-        matchRepository.saveAll(List.of(
-                Match.builder()
-                        .p1(players.get(0))
-                        .p2(players.get(1))
-                        .status(MatchStatus.FINISHED)
-                        .movesMap(Map.of(1, new Move("x", 1, 2), 2, new Move("o", 1, 3)))
-                        .build(),
-                Match.builder()
-                        .p1(players.get(1))
-                        .p2(players.get(0))
-                        .status(MatchStatus.FINISHED)
-                        .movesMap(Map.of(1, new Move("x", 1, 2), 2, new Move("o", 1, 3)))
-                        .build()));
+        matchRepository
+                .saveAll(List.of(
+                        Match.builder()
+                                .p1(players.get(0))
+                                .p2(players.get(1))
+                                .status(MatchStatus.FINISHED)
+                                .movesMap(Map
+                                        .of(new Point(0, 0), new Move(1, Sign.X), new Point(0, 1), new Move(2, Sign.O)))
+                                .build(),
+                        Match.builder()
+                                .p1(players.get(1))
+                                .p2(players.get(0))
+                                .status(MatchStatus.FINISHED)
+                                .movesMap(Map
+                                        .of(new Point(0, 0), new Move(1, Sign.X), new Point(0, 1), new Move(2, Sign.O)))
+                                .build()));
         List<Match> matches = matchRepository.findAll();
         Assertions.assertThat(matches.size()).isEqualTo(2);
     }
