@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.fada.project3t5.domain.dto.MoveDTO;
+import com.fada.project3t5.domain.enums.MatchResult;
 import com.fada.project3t5.domain.enums.MatchStatus;
 import com.fada.project3t5.domain.enums.Sign;
 import com.fada.project3t5.domain.model.Match;
@@ -52,10 +53,12 @@ public class MatchService {
                     match.getMovesMap()
                             .put(point,
                                     new Move(match.getMovesMap().size() + 1, match.getPlayerSign(player.getEmail())));
-                    return matchRepository.save(match);
                 } else {
-                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid move");
+                    boolean who = match.getMovesMap().size() % 2 == 0;
+                    match.setStatus(who ? MatchStatus.P2_WON : MatchStatus.P1_WON);
+                    match.setResult(who ? MatchResult.P1_MADE_INVALID_MOVE : MatchResult.P2_MADE_INVALID_MOVE);
                 }
+                return matchRepository.save(match);
             } else {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Not the player's turn");
             }

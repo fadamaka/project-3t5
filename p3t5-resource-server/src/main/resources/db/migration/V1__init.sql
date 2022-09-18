@@ -22,6 +22,7 @@ CREATE TABLE `match` (
 	player_two_id int8 NULL,
 	status_id int8 NULL,
 	moves text NULL,
+	result int8 null,
 	CONSTRAINT match_pkey PRIMARY KEY (id),
 	CONSTRAINT match_player_one_id_fkey FOREIGN KEY (player_one_id) REFERENCES player(id),
 	CONSTRAINT match_player_two_id_fkey FOREIGN KEY (player_two_id) REFERENCES player(id),
@@ -29,5 +30,6 @@ CREATE TABLE `match` (
 );
 
 insert into match_status(id,name) values(1,'IN_PROGRESS');
-insert into match_status(id,name) values(2,'FINISHED');
+insert into match_status(id,name) values(2,'P1_WON');
+insert into match_status(id,name) values(3,'P2_WON');
 insert into match_status(id,name) values(0,'READY');

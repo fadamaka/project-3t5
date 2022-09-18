@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fada.project3t5.domain.converter.MovesMapConverter;
+import com.fada.project3t5.domain.enums.MatchResult;
 import com.fada.project3t5.domain.enums.MatchStatus;
 import com.fada.project3t5.domain.enums.Sign;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -48,6 +49,8 @@ public class Match {
     @Convert(converter = MovesMapConverter.class)
     @JsonIgnore
     private Map<Point, Move> movesMap;
+    @Column(columnDefinition = "BIGINTEGER")
+    private MatchResult result;
 
     @JsonProperty
     public Map<String, Move> getMoves() {
@@ -69,6 +72,7 @@ public class Match {
         return null;
     }
 
+    @JsonProperty
     public Player whosTurn() {
         return this.movesMap.size() % 2 == 0 ? this.p1 : this.p2;
     }

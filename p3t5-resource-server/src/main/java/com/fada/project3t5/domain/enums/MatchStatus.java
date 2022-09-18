@@ -8,7 +8,8 @@ public enum MatchStatus {
 
     READY(0, "Ready"),
     IN_PROGRESS(1, "In Progress"),
-    FINISHED(2, "Finished");
+    P1_WON(2, "Player 1 won"),
+    P2_WON(3, "Player 2 won");
 
     private final int id;
     private final String name;

@@ -62,8 +62,8 @@ public class MatchController {
         List<Player> players = playerRepository.findAll();
 
         matchRepository.saveAll(
-                List.of(Match.builder().p1(players.get(0)).p2(players.get(1)).status(MatchStatus.FINISHED).build(),
-                        Match.builder().p1(players.get(1)).p2(players.get(0)).status(MatchStatus.FINISHED).build()));
+                List.of(Match.builder().p1(players.get(0)).p2(players.get(1)).status(MatchStatus.P1_WON).build(),
+                        Match.builder().p1(players.get(1)).p2(players.get(0)).status(MatchStatus.P1_WON).build()));
         return ResponseEntity.ok(true);
     }
 
