@@ -17,6 +17,7 @@ import javax.persistence.Table;
 import com.fada.project3t5.domain.converter.MovesMapConverter;
 import com.fada.project3t5.domain.enums.MatchStatus;
 import com.fada.project3t5.domain.enums.Sign;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
@@ -45,10 +46,11 @@ public class Match {
     private MatchStatus status;
     @Column(name = "moves", columnDefinition = "TEXT")
     @Convert(converter = MovesMapConverter.class)
+    @JsonIgnore
     private Map<Point, Move> movesMap;
 
     @JsonProperty
-    public Map<String, Move> getMovesMap() {
+    public Map<String, Move> getMoves() {
         if (this.movesMap != null) {
             return movesMap.entrySet()
                     .stream()
@@ -65,5 +67,9 @@ public class Match {
             return Sign.O;
         }
         return null;
+    }
+
+    public Player whosTurn() {
+        return this.movesMap.size() % 2 == 0 ? this.p1 : this.p2;
     }
 }

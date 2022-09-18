@@ -2,15 +2,17 @@ package com.fada.project3t5.api;
 
 import java.util.List;
 
-import javax.validation.constraints.Email;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.fada.project3t5.domain.dto.MoveDTO;
 import com.fada.project3t5.domain.enums.MatchStatus;
 import com.fada.project3t5.domain.model.Match;
 import com.fada.project3t5.domain.model.Player;
@@ -66,7 +68,12 @@ public class MatchController {
     }
 
     @GetMapping(value = "/create", produces = { "application/json" })
-    public ResponseEntity<Match> createNew(@Email String email) {
+    public ResponseEntity<Match> createNew(String email) {
         return ResponseEntity.ok(matchService.createNew(email));
+    }
+
+    @PostMapping(value = "/{matchId}/move", consumes = { "application/json" }, produces = { "application/json" })
+    public ResponseEntity<Match> move(@PathVariable Long matchId, @RequestBody MoveDTO moveDTO) {
+        return ResponseEntity.ok(matchService.applyMove(matchId, moveDTO));
     }
 }

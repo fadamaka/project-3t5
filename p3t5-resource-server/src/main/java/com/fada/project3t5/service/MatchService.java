@@ -1,10 +1,14 @@
 package com.fada.project3t5.service;
 
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
+import com.fada.project3t5.domain.dto.MoveDTO;
 import com.fada.project3t5.domain.enums.MatchStatus;
 import com.fada.project3t5.domain.enums.Sign;
 import com.fada.project3t5.domain.model.Match;
@@ -32,5 +36,31 @@ public class MatchService {
                 .status(MatchStatus.IN_PROGRESS)
                 .movesMap(Map.of(new Point(0, 0), new Move(1, Sign.X)))
                 .build());
+    }
+
+    public Match applyMove(Long matchId, MoveDTO moveDTO) {
+        Player player = playerService.getLoggedInPlayer();
+
+        Optional<Match> matchOptional = matchRepository.findById(matchId);
+
+        if (matchOptional.isPresent() && matchOptional.get().getPlayerSign(player.getEmail()) != null
+                && matchOptional.get().getStatus().equals(MatchStatus.IN_PROGRESS)) {
+            Match match = matchOptional.get();
+            if (match.whosTurn().getId().equals(player.getId())) {
+                Point point = Point.fromMoveDTO(moveDTO);
+                if (!match.getMovesMap().containsKey(point)) {
+                    match.getMovesMap()
+                            .put(point,
+                                    new Move(match.getMovesMap().size() + 1, match.getPlayerSign(player.getEmail())));
+                    return matchRepository.save(match);
+                } else {
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid move");
+                }
+            } else {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Not the player's turn");
+            }
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Match not found");
+        }
     }
 }
