@@ -1,5 +1,7 @@
 package com.fada.project3t5.service;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -26,6 +28,8 @@ public class MatchService {
 
     @Autowired
     private PlayerService playerService;
+
+    private static final Integer numInRow = 5;
 
     public Match createNew(String opponentEmail) {
         Player p1 = playerService.getLoggedInPlayer();
@@ -65,5 +69,110 @@ public class MatchService {
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Match not found");
         }
+    }
+
+    public LinkedList<Map.Entry<Point, Move>> getWinningAxis(Match match, Point lastMove) {
+        Map<Point, Move> movesMap = match.getMovesMap();
+        LinkedList<Map.Entry<Point, Move>> axisY = new LinkedList<Map.Entry<Point, Move>>(
+                List.of(Map.entry(lastMove, movesMap.get(lastMove))));
+
+        LinkedList<Map.Entry<Point, Move>> axisX = new LinkedList<Map.Entry<Point, Move>>(
+                List.of(Map.entry(lastMove, movesMap.get(lastMove))));
+
+        LinkedList<Map.Entry<Point, Move>> axisZ = new LinkedList<Map.Entry<Point, Move>>(
+                List.of(Map.entry(lastMove, movesMap.get(lastMove))));
+
+        LinkedList<Map.Entry<Point, Move>> axisZi = new LinkedList<Map.Entry<Point, Move>>(
+                List.of(Map.entry(lastMove, movesMap.get(lastMove))));
+
+        for (int i = 1; i < 5; i++) {
+            Point nextPoint = Point.of(lastMove.x(), lastMove.y() + i);
+            if (movesMap.containsKey(nextPoint) && movesMap.get(nextPoint).sign() == movesMap.get(lastMove).sign()) {
+                axisY.addLast(Map.entry(nextPoint, movesMap.get(nextPoint)));
+            } else {
+                break;
+            }
+        }
+
+        for (int i = 1; i < 5; i++) {
+            Point nextPoint = Point.of(lastMove.x(), lastMove.y() - i);
+            if (movesMap.containsKey(nextPoint) && movesMap.get(nextPoint).sign() == movesMap.get(lastMove).sign()) {
+                axisY.addFirst(Map.entry(nextPoint, movesMap.get(nextPoint)));
+            } else {
+                break;
+            }
+        }
+
+        if (axisY.size() >= 5) {
+            return axisY;
+        }
+
+        for (int i = 1; i < 5; i++) {
+            Point nextPoint = Point.of(lastMove.x() + i, lastMove.y());
+            if (movesMap.containsKey(nextPoint) && movesMap.get(nextPoint).sign() == movesMap.get(lastMove).sign()) {
+                axisX.addLast(Map.entry(nextPoint, movesMap.get(nextPoint)));
+            } else {
+                break;
+            }
+        }
+
+        for (int i = 1; i < 5; i++) {
+            Point nextPoint = Point.of(lastMove.x() - i, lastMove.y());
+            if (movesMap.containsKey(nextPoint) && movesMap.get(nextPoint).sign() == movesMap.get(lastMove).sign()) {
+                axisX.addFirst(Map.entry(nextPoint, movesMap.get(nextPoint)));
+            } else {
+                break;
+            }
+        }
+
+        if (axisX.size() >= 5) {
+            return axisX;
+        }
+
+        for (int i = 1; i < 5; i++) {
+            Point nextPoint = Point.of(lastMove.x() + i, lastMove.y() + i);
+            if (movesMap.containsKey(nextPoint) && movesMap.get(nextPoint).sign() == movesMap.get(lastMove).sign()) {
+                axisZ.addLast(Map.entry(nextPoint, movesMap.get(nextPoint)));
+            } else {
+                break;
+            }
+        }
+
+        for (int i = 1; i < 5; i++) {
+            Point nextPoint = Point.of(lastMove.x() - i, lastMove.y() - i);
+            if (movesMap.containsKey(nextPoint) && movesMap.get(nextPoint).sign() == movesMap.get(lastMove).sign()) {
+                axisZ.addFirst(Map.entry(nextPoint, movesMap.get(nextPoint)));
+            } else {
+                break;
+            }
+        }
+
+        if (axisZ.size() >= 5) {
+            return axisZ;
+        }
+
+        for (int i = 1; i < 5; i++) {
+            Point nextPoint = Point.of(lastMove.x() - i, lastMove.y() + i);
+            if (movesMap.containsKey(nextPoint) && movesMap.get(nextPoint).sign() == movesMap.get(lastMove).sign()) {
+                axisZi.addLast(Map.entry(nextPoint, movesMap.get(nextPoint)));
+            } else {
+                break;
+            }
+        }
+
+        for (int i = 1; i < 5; i++) {
+            Point nextPoint = Point.of(lastMove.x() + i, lastMove.y() - i);
+            if (movesMap.containsKey(nextPoint) && movesMap.get(nextPoint).sign() == movesMap.get(lastMove).sign()) {
+                axisZi.addFirst(Map.entry(nextPoint, movesMap.get(nextPoint)));
+            } else {
+                break;
+            }
+        }
+
+        if (axisZi.size() >= 5) {
+            return axisZi;
+        }
+
+        return new LinkedList<Map.Entry<Point, Move>>(List.of());
     }
 }

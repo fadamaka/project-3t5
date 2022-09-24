@@ -38,14 +38,14 @@ class MatchRepositoryITest {
                         Match.builder()
                                 .p1(players.get(0))
                                 .p2(players.get(1))
-                                .status(MatchStatus.FINISHED)
+                                .status(MatchStatus.IN_PROGRESS)
                                 .movesMap(Map
                                         .of(new Point(0, 0), new Move(1, Sign.X), new Point(0, 1), new Move(2, Sign.O)))
                                 .build(),
                         Match.builder()
                                 .p1(players.get(1))
                                 .p2(players.get(0))
-                                .status(MatchStatus.FINISHED)
+                                .status(MatchStatus.IN_PROGRESS)
                                 .movesMap(Map
                                         .of(new Point(0, 0), new Move(1, Sign.X), new Point(0, 1), new Move(2, Sign.O)))
                                 .build()));
