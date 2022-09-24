@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,9 @@ public class MatchService {
 
     @Autowired
     private PlayerService playerService;
+
+    private static final List<Pair<Integer, Integer>> directions = List
+            .of(Pair.of(0, 1), Pair.of(1, 0), Pair.of(1, 1), Pair.of(-1, 1));
 
     private static final Integer numInRow = 5;
 
@@ -73,106 +77,49 @@ public class MatchService {
 
     public LinkedList<Map.Entry<Point, Move>> getWinningAxis(Match match, Point lastMove) {
         Map<Point, Move> movesMap = match.getMovesMap();
-        LinkedList<Map.Entry<Point, Move>> axisY = new LinkedList<Map.Entry<Point, Move>>(
+        LinkedList<Map.Entry<Point, Move>> axis;
+
+        for (Pair<Integer, Integer> p : directions) {
+            axis = this.evaluateAxis(movesMap, lastMove, p.getLeft(), p.getRight());
+            if (axis.size() >= numInRow) {
+                return axis;
+            }
+        }
+
+        return new LinkedList<>(List.of());
+    }
+
+    public LinkedList<Map.Entry<Point, Move>> evaluateAxis(Map<Point, Move> movesMap,
+            Point lastMove,
+            int xModifier,
+            int yModifier) {
+        LinkedList<Map.Entry<Point, Move>> axis = new LinkedList<>(
                 List.of(Map.entry(lastMove, movesMap.get(lastMove))));
 
-        LinkedList<Map.Entry<Point, Move>> axisX = new LinkedList<Map.Entry<Point, Move>>(
-                List.of(Map.entry(lastMove, movesMap.get(lastMove))));
+        this.evaluateDirection(axis, movesMap, lastMove, xModifier, yModifier, true);
+        this.evaluateDirection(axis, movesMap, lastMove, xModifier * -1, yModifier * -1, false);
 
-        LinkedList<Map.Entry<Point, Move>> axisZ = new LinkedList<Map.Entry<Point, Move>>(
-                List.of(Map.entry(lastMove, movesMap.get(lastMove))));
+        return axis;
+    }
 
-        LinkedList<Map.Entry<Point, Move>> axisZi = new LinkedList<Map.Entry<Point, Move>>(
-                List.of(Map.entry(lastMove, movesMap.get(lastMove))));
+    public void evaluateDirection(LinkedList<Map.Entry<Point, Move>> axis,
+            Map<Point, Move> movesMap,
+            Point lastMove,
+            int xModifier,
+            int yModifier,
+            boolean up) {
 
-        for (int i = 1; i < 5; i++) {
-            Point nextPoint = Point.of(lastMove.x(), lastMove.y() + i);
+        for (int i = 1; i < numInRow; i++) {
+            Point nextPoint = Point.of(lastMove.x() + (i * xModifier), lastMove.y() + (i * yModifier));
             if (movesMap.containsKey(nextPoint) && movesMap.get(nextPoint).sign() == movesMap.get(lastMove).sign()) {
-                axisY.addLast(Map.entry(nextPoint, movesMap.get(nextPoint)));
+                if (up) {
+                    axis.addFirst(Map.entry(nextPoint, movesMap.get(nextPoint)));
+                } else {
+                    axis.addLast(Map.entry(nextPoint, movesMap.get(nextPoint)));
+                }
             } else {
                 break;
             }
         }
-
-        for (int i = 1; i < 5; i++) {
-            Point nextPoint = Point.of(lastMove.x(), lastMove.y() - i);
-            if (movesMap.containsKey(nextPoint) && movesMap.get(nextPoint).sign() == movesMap.get(lastMove).sign()) {
-                axisY.addFirst(Map.entry(nextPoint, movesMap.get(nextPoint)));
-            } else {
-                break;
-            }
-        }
-
-        if (axisY.size() >= 5) {
-            return axisY;
-        }
-
-        for (int i = 1; i < 5; i++) {
-            Point nextPoint = Point.of(lastMove.x() + i, lastMove.y());
-            if (movesMap.containsKey(nextPoint) && movesMap.get(nextPoint).sign() == movesMap.get(lastMove).sign()) {
-                axisX.addLast(Map.entry(nextPoint, movesMap.get(nextPoint)));
-            } else {
-                break;
-            }
-        }
-
-        for (int i = 1; i < 5; i++) {
-            Point nextPoint = Point.of(lastMove.x() - i, lastMove.y());
-            if (movesMap.containsKey(nextPoint) && movesMap.get(nextPoint).sign() == movesMap.get(lastMove).sign()) {
-                axisX.addFirst(Map.entry(nextPoint, movesMap.get(nextPoint)));
-            } else {
-                break;
-            }
-        }
-
-        if (axisX.size() >= 5) {
-            return axisX;
-        }
-
-        for (int i = 1; i < 5; i++) {
-            Point nextPoint = Point.of(lastMove.x() + i, lastMove.y() + i);
-            if (movesMap.containsKey(nextPoint) && movesMap.get(nextPoint).sign() == movesMap.get(lastMove).sign()) {
-                axisZ.addLast(Map.entry(nextPoint, movesMap.get(nextPoint)));
-            } else {
-                break;
-            }
-        }
-
-        for (int i = 1; i < 5; i++) {
-            Point nextPoint = Point.of(lastMove.x() - i, lastMove.y() - i);
-            if (movesMap.containsKey(nextPoint) && movesMap.get(nextPoint).sign() == movesMap.get(lastMove).sign()) {
-                axisZ.addFirst(Map.entry(nextPoint, movesMap.get(nextPoint)));
-            } else {
-                break;
-            }
-        }
-
-        if (axisZ.size() >= 5) {
-            return axisZ;
-        }
-
-        for (int i = 1; i < 5; i++) {
-            Point nextPoint = Point.of(lastMove.x() - i, lastMove.y() + i);
-            if (movesMap.containsKey(nextPoint) && movesMap.get(nextPoint).sign() == movesMap.get(lastMove).sign()) {
-                axisZi.addLast(Map.entry(nextPoint, movesMap.get(nextPoint)));
-            } else {
-                break;
-            }
-        }
-
-        for (int i = 1; i < 5; i++) {
-            Point nextPoint = Point.of(lastMove.x() + i, lastMove.y() - i);
-            if (movesMap.containsKey(nextPoint) && movesMap.get(nextPoint).sign() == movesMap.get(lastMove).sign()) {
-                axisZi.addFirst(Map.entry(nextPoint, movesMap.get(nextPoint)));
-            } else {
-                break;
-            }
-        }
-
-        if (axisZi.size() >= 5) {
-            return axisZi;
-        }
-
-        return new LinkedList<Map.Entry<Point, Move>>(List.of());
     }
 }
