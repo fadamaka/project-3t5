@@ -57,12 +57,17 @@ public class MatchService {
             Match match = matchOptional.get();
             if (match.whosTurn().getId().equals(player.getId())) {
                 Point point = Point.fromMoveDTO(moveDTO);
+                boolean who = match.getMovesMap().size() % 2 == 0;
                 if (!match.getMovesMap().containsKey(point)) {
                     match.getMovesMap()
                             .put(point,
                                     new Move(match.getMovesMap().size() + 1, match.getPlayerSign(player.getEmail())));
+                    LinkedList<Map.Entry<Point, Move>> winningAxis = this.getWinningAxis(match, point);
+                    if (winningAxis.size() >= numInRow) {
+                        match.setStatus(who ? MatchStatus.P1_WON : MatchStatus.P2_WON);
+                        match.setResult(who ? MatchResult.P1_WON_BY_5 : MatchResult.P2_WON_BY_5);
+                    }
                 } else {
-                    boolean who = match.getMovesMap().size() % 2 == 0;
                     match.setStatus(who ? MatchStatus.P2_WON : MatchStatus.P1_WON);
                     match.setResult(who ? MatchResult.P1_MADE_INVALID_MOVE : MatchResult.P2_MADE_INVALID_MOVE);
                 }
