@@ -51,7 +51,7 @@ public class PlayerController {
         params.put("client_id", "jwtClient");
         params.put("redirect_uri", REDIRECT_URL);
         params.put("client_secret", "jwtClientSecret");
-        Response response = RestAssured.given().formParams(params).post(TOKEN_URL);
+        Response response = RestAssured.given().formParams(params).log().all().post(TOKEN_URL);
         return ResponseEntity.ok().body(response.jsonPath().getString("access_token"));
     }
 }
