@@ -13,21 +13,21 @@ const options = {
 	 * @type {Promise<String>}
 	 */
 export let promise;
-export let token="I don't know.";
+export let name="I don't know.";
 
-async function getToken(){
+async function getName(){
     let response =await fetch( 'http://localhost:8081/players/gets', options );
     if(response.status===200){
     let data = await response.json();
-    token = data.name?data.name:token;
-    return token;}
+    name = data.name?data.name:name;
+    return name;}
     else{
         return 'error';
     }
 } 
 
 function handleClick() {
-    promise = getToken();
+    promise = getName();
 }
 
 </script>
@@ -38,5 +38,5 @@ function handleClick() {
 </button>
 
 <!-- replace this element -->
-<p>{token}</p>
+<p>{name}</p>
 <a href="/">Home</a>
