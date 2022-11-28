@@ -1,6 +1,6 @@
 /** @type {import('./$types').PageServerLoad} */
 export async function load({ url, cookies }) {
-	const token = cookies.get('jwt_token') + '';
+	const token = cookies.get('access_token') + '';
 
 	return { token: token };
 }
