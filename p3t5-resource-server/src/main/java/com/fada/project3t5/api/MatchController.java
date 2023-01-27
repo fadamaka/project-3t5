@@ -1,6 +1,7 @@
 package com.fada.project3t5.api;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,8 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.fada.project3t5.domain.dto.MoveDTO;
 import com.fada.project3t5.domain.enums.MatchStatus;
+import com.fada.project3t5.domain.enums.Sign;
 import com.fada.project3t5.domain.model.Match;
+import com.fada.project3t5.domain.model.Move;
 import com.fada.project3t5.domain.model.Player;
+import com.fada.project3t5.domain.model.Point;
 import com.fada.project3t5.repository.MatchRepository;
 import com.fada.project3t5.repository.PlayerRepository;
 import com.fada.project3t5.service.MatchService;
@@ -57,13 +61,51 @@ public class MatchController {
 
     @GetMapping(value = "/fake", produces = { "application/json" })
     public ResponseEntity<Boolean> createFakeData() {
-        playerRepository.saveAll(List.of(Player.builder().name("someone").email("meh@meh.meh").build(),
-                Player.builder().name("someone").email("meh2@meh.meh").build()));
         List<Player> players = playerRepository.findAll();
 
-        matchRepository.saveAll(
-                List.of(Match.builder().p1(players.get(0)).p2(players.get(1)).status(MatchStatus.P1_WON).build(),
-                        Match.builder().p1(players.get(1)).p2(players.get(0)).status(MatchStatus.P1_WON).build()));
+        matchRepository.saveAll(List.of(
+                Match.builder()
+                        .p1(players.get(0))
+                        .p2(players.get(1))
+                        .status(MatchStatus.P1_WON)
+                        .movesMap(Map.of(Point.of(0, 0),
+                                Move.of(1, Sign.X),
+                                Point.of(1, 1),
+                                Move.of(2, Sign.O),
+                                Point.of(1, 2),
+                                Move.of(3, Sign.O),
+                                Point.of(1, 3),
+                                Move.of(4, Sign.O),
+                                Point.of(1, 0),
+                                Move.of(5, Sign.O),
+                                Point.of(1, -1),
+                                Move.of(6, Sign.O),
+                                Point.of(1, -3),
+                                Move.of(7, Sign.O),
+                                Point.of(1, -2),
+                                Move.of(8, Sign.O)))
+                        .build(),
+                Match.builder()
+                        .p1(players.get(1))
+                        .p2(players.get(0))
+                        .status(MatchStatus.P1_WON)
+                        .movesMap(Map.of(Point.of(0, 0),
+                                Move.of(1, Sign.X),
+                                Point.of(1, 1),
+                                Move.of(2, Sign.O),
+                                Point.of(1, 2),
+                                Move.of(3, Sign.O),
+                                Point.of(1, 3),
+                                Move.of(4, Sign.O),
+                                Point.of(1, 0),
+                                Move.of(5, Sign.O),
+                                Point.of(1, -1),
+                                Move.of(6, Sign.O),
+                                Point.of(1, -3),
+                                Move.of(7, Sign.O),
+                                Point.of(1, -2),
+                                Move.of(8, Sign.O)))
+                        .build()));
         return ResponseEntity.ok(true);
     }
 

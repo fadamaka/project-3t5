@@ -5,6 +5,7 @@ declare namespace App {
 	// interface Locals {}
 	interface PageData {
 		token: String;
+		matches: Array<Object>;
 	}
 	// interface Error {}
 	// interface Platform {}
