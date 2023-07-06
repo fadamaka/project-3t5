@@ -12,7 +12,6 @@ export async function load({ url, cookies }) {
 		let array = await response.json();
 		return { token: '', matches: array };
 	} else {
-		console.log(response.status);
 		return { token: '', matches: [] };
 	}
 }

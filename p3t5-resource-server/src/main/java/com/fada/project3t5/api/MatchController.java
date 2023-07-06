@@ -2,6 +2,7 @@ package com.fada.project3t5.api;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -54,6 +55,24 @@ public class MatchController {
         List<Match> matches = matchRepository.findAll();
         if (matches.size() > 0) {
             return ResponseEntity.ok(matches);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+    }
+
+    /**
+     * GET /matches/{id} Returns with a match
+     *
+     * @return A single match. (status code 200)
+     */
+    @ApiOperation(value = "", nickname = "findOne", notes = "Returns with a match", response = Match.class, responseContainer = "Match", tags = {})
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "A single match.", response = Match.class, responseContainer = "Match") })
+    @GetMapping(value = "/{id}", produces = { "application/json" })
+    public ResponseEntity<Match> findOne(@PathVariable Long id) {
+        Optional<Match> match = matchRepository.findById(id);
+        if (match.isPresent()) {
+            return ResponseEntity.ok(match.get());
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 

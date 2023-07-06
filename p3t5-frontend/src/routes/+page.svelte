@@ -1,10 +1,11 @@
 <script>
-	import Table from '../components/Table.svelte';
+	import MapTable from '../components/MapTable.svelte';
 
 	/** @type {import('./$types').PageData} */
 	export let data;
 	console.log(data.matches);
 	let matchesArr = data.matches.map((/** @type {any} */ m) => ({
+		id: m.id,
 		'Player 1': m.p1.email,
 		'Player 2': m.p2.email,
 		status: m.status,
@@ -16,4 +17,4 @@
 <!--><p>You can check out your cart <a href="/cart">here</a></p>-->
 <a href="/login">Check your name here</a>
 
-<Table tableData={matchesArr} style="blueTable" />
+<MapTable tableData={matchesArr} style="blueTable" />

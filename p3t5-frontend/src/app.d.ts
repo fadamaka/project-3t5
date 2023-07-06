@@ -7,6 +7,9 @@ declare namespace App {
 		token: String;
 		matches: Array<Object>;
 	}
+	interface Match {
+		moves: Array<Object>;
+	}
 	// interface Error {}
 	// interface Platform {}
 }
