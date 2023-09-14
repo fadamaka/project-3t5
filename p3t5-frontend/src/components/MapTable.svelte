@@ -84,16 +84,19 @@
 		padding: 3px 2px;
 	}
 	table.blueTable tbody td {
+		transition: all 300ms;
 		font-size: 13px;
 	}
 	table.blueTable tr:nth-child(even) {
 		background: #d0e4f5;
 	}
 	table.blueTable tr:hover {
+		transition: all 300ms;
 		background-color: #c8d7e6;
 	}
 
 	table.blueTable tr:nth-child(even):hover {
+		transition: all 300ms;
 		background: #8ed4ed;
 	}
 	table.blueTable thead {

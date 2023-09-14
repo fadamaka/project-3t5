@@ -23,11 +23,20 @@
 		border-collapse: collapse;
 	}
 
+	td:hover {
+		transition: all 300ms;
+		background-color: #aaa192;
+	}
+
 	td {
 		width: 20px;
 		height: 20px;
 		overflow: hidden;
 		display: inline-block;
+		white-space: nowrap;
+	}
+
+	tr {
 		white-space: nowrap;
 	}
 
