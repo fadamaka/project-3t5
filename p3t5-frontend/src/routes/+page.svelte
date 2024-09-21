@@ -1,4 +1,5 @@
 <script>
+	import Dropdown from '../components/Dropdown.svelte';
 	import MapTable from '../components/MapTable.svelte';
 
 	/** @type {import('./$types').PageData} */
@@ -18,3 +19,4 @@
 <a href="/login">Check your name here</a>
 
 <MapTable tableData={matchesArr} style="blueTable" />
+<Dropdown />
